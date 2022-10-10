@@ -1,0 +1,21 @@
+Angry Again,Megadeth,3.48,2934839
+Trust,Megadeth,5.12,29348439
+Symphony of Destruction,Megadeth,4.07,939488
+Hangar 18,Megadeth,5.11,29388493
+Raining Blood,Slayer,4.14,92384993
+Skeletons Of Society,Slayer,4.40,293499
+Behind The Crooked Cross,Slayer,3.15,2939845
+You Can't Bring Me Down,Suicidal Tendencies,5.48,8920734
+Lost Again,Suicidal Tendencies,5.16,92873498
+Send Me Your Money,Suicidal Tendencies,3.22,2384729
+Antisocial,Anthrax,4.25,230874
+Madhouse,Anthrax,4.20,192379
+Ace of Spades,Motorhead,2.46,932842
+Perry Mason,Ozzy Osbourne,5.54,9238423
+Children of the Grave,Black Sabbath,5.17,69420
+Bored to Tears,Black Label Society,4.29,3405983
+Dyers Eve,Metallica,5.13,234059
+Seek & Destroy,Metallica,6.55,92384892
+Leper Messiah,Metallica,5.40,2348549
+Whiplash,Metallica,4.09,345678
+The Four Horsemen,Metallica,7.13,123456
