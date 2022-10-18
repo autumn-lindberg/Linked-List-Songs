@@ -26,12 +26,27 @@ SongList::SongList(const SongList & src) {
 }
 // destructor
 SongList::~SongList() {
-	Node * current = this->head;
-	while (current != nullptr) {
-		this->head = this->head->next;
-		delete current->data;
-		delete current;
-		current = this->head;
+	// Node * current = this->head;
+	// while (current != nullptr) {
+		// this->head = this->head->next;
+		// delete current->data;
+		// delete current;
+		// current = this->head;
+	// }
+	recursiveDestroy(this->head);
+}
+// destructor recursive - (node is by reference to change actual head)
+// it needs a copy (currentHead) so that ->next actually works
+// calling recursive function first puts it all the way at the end
+// it then works backwards and deletes it one by one
+void SongList::recursiveDestroy(Node *& currentHead) {
+	if (currentHead == nullptr) {
+		return;
+	}
+	else {
+		recursiveDestroy(currentHead->next);
+		delete currentHead->data;
+		delete currentHead;
 	}
 }
 // copy assignment operator
@@ -64,26 +79,36 @@ SongList & SongList::operator = (const SongList & src) {
 }
 // overloaded outpu operator
 ostream & operator << (ostream & out, const SongList & src) {
-  src.display();
-  return out;
-}
-// display all songs
-void SongList::display() const {
   cout << endl << endl;
-	Node * current = this->head;
 	cout << left;
 	cout << setw(30) << "NAME";
 	cout << setw(20) << "ARTIST";
 	cout << setw(8) << "LENGTH";
 	cout << setw(10) << "LIKES" << endl;
-	while (current != nullptr) {
-		current->data->display();
-		current = current->next;
+	src.display();
+  return out;
+}
+// recursion 
+void SongList::display(Node * head) const {
+	if (head == nullptr) { 
+		return;
+ 	}
+	else {
+		// swap the next two lines to print backwards
+		// it goes all the way to the end (nullptr), prints,
+		// then it cycles backwards by returning to the previous display()
+		// function that called it
+		cout << *(head->data);
+		display(head->next);
 	}
+}
+// display all songs by calling recursive version of print
+void SongList::display() const {
+	display(this->head);
 	cout << endl << endl;
 }
 // add song to list in proper place : sort by likes
-void SongList::addSong(Song * s) {
+bool SongList::addSong(Song * s) {
 	Node * n = new Node();
 	n->data = s;
 	Node * current = this->head;
@@ -124,6 +149,7 @@ void SongList::addSong(Song * s) {
 		}
 	}
 	this->size += 1;
+	return true;
 }
 // display artist (songs sorted by likes)
 bool SongList::displayArtist(char * artistName) const {
@@ -272,4 +298,10 @@ bool SongList::removeSongsUnder(int numLikes) {
 // get lenght of the list
 int SongList::getSize() const {
 	return this->size;
+}
+// add new song using parameters (user input)
+bool SongList::addSong(char * title, char * artist, float length, int likes) {
+	Song * s = new Song(title, artist, length, likes);
+	// call its other version of function
+	return this->addSong(s);
 }

@@ -8,3 +8,5 @@ bool getData(char * fileName, SongList & sl);
 int getInt();
 char * getInput();
 char menu();
+void executeOption(SongList * sl, char option);
+float getFloat();

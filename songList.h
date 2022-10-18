@@ -17,14 +17,18 @@ class SongList {
 		SongList(const SongList & src);
 		// destructor
 		~SongList();
+		// recursive destructor
+		void recursiveDestroy(Node *& head);
 		// copy assignment operator
 		SongList & operator = (const SongList & src);	
     // overloaded output operator
     friend ostream & operator << (ostream & out, const SongList & src);
 		// display entire list
 		void display() const;
+		// display recursively
+		void display(Node * head) const;
 		// add song to list in proper place
-		void addSong(Song * s);
+		bool addSong(Song * s);
 		// display artist (songs sorted by likes)
 		bool displayArtist(char * artistName) const; 
 		// edit likes for a given song
@@ -35,4 +39,6 @@ class SongList {
 		bool removeSongsUnder(int numLikes);
 		// get length of list
 		int getSize() const;
+		// add song via parameters
+		bool addSong(char * title, char * artist, float length, int likes);
 };

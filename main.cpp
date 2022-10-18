@@ -1,13 +1,15 @@
 #include "main.h"
 using namespace std;
 
+
 int main() {
   char option = 'z';
   char * fileName = new char[10];
   strcpy(fileName, "songs.txt");
 	SongList * sl = new SongList();
 
-	cout << "Welcome to my list program." << endl;
+	cout << endl;
+	cout << "Welcome To My Playlist Program!" << endl;
 	cout << endl << endl;
 	// set initial data
 
@@ -18,81 +20,104 @@ int main() {
 	delete [] fileName;
 	fileName = nullptr;
   while ((option = menu()) != 'q') {
-    switch (option) {
-      case 'd': {
-        cout << *(sl);
-        break;
-      }
-      case 'a': {
-        cout << endl;
-        cout << "Enter an artist name to display: ";
-        char * artistName = getInput();
-        if (!(sl->displayArtist(artistName))) {
-          cout << endl;
-          cout << "Artist not found." << endl;
-          cout << endl;
-        }
-        if (artistName != nullptr) {
-          delete [] artistName;
-          artistName = nullptr;
-        }
-        break;
-      }
-      case 'e': {
-        int likes;
-        char * songName = nullptr;
-        cout << endl;
-        cout << "Enter a song name to edit the likes for: ";
-        songName = getInput();
-        cout << endl;
-        cout << "How many likes would you like to change " << songName << " to? ";
-        likes = getInt();
-        if (!(sl->editLikes(songName, likes))) {
-          cout << endl;
-          cout << "Song not found." << endl;
-          cout << endl;
-        }
-        if (songName != nullptr) {
-          delete [] songName;
-          songName = nullptr;
-        }
-        break;
-      }
-      case 'r': {
-        int likes;
-        cout << endl;
-        cout << "Enter a likes threshold to remove all songs under: ";
-        likes = getInt();
-        if (!(sl->removeSongsUnder(likes))) {
-          cout << endl;
-          cout << "No songs removed." << endl;
-          cout << endl;
-        }
-        break;
-      }
-      case 'q': {
-        cout << endl;
-        cout << "Thank you for using my program!" << endl;
-        cout << endl;
-      }
-      default: {
-        cout << endl;
-        cout << "Choice not recognized." << endl;
-        cout << endl;
-      }
-    }
+		executeOption(sl, option);
   }
   delete sl;
   sl = nullptr;
 }
 
+// for given option, execute the action the user wants
+void executeOption(SongList * sl, char option) {
+	switch (option) {
+		case 'd': {
+			cout << *(sl);
+			break;
+		}
+		case 'a': {
+			cout << endl;
+			cout << "Enter an artist name to display: ";
+			char * artistName = getInput();
+			if (!(sl->displayArtist(artistName))) {
+				cout << endl;
+				cout << "Artist not found." << endl;
+				cout << endl;
+			}
+			if (artistName != nullptr) {
+				delete [] artistName;
+				artistName = nullptr;
+			}
+			break;
+		}
+		case 'e': {
+			int likes;
+			char * songName = nullptr;
+			cout << endl;
+			cout << "Enter a song name to edit the likes for: ";
+			songName = getInput();
+			cout << endl;
+			cout << "How many likes would you like to change " << songName << " to? ";
+			likes = getInt();
+			if (!(sl->editLikes(songName, likes))) {
+				cout << endl;
+				cout << "Song not found." << endl;
+				cout << endl;
+			}
+			if (songName != nullptr) {
+				delete [] songName;
+				songName = nullptr;
+			}
+			break;
+		}
+		case 'r': {
+			int likes;
+			cout << endl;
+			cout << "Enter a likes threshold to remove all songs under: ";
+			likes = getInt();
+			if (!(sl->removeSongsUnder(likes))) {
+				cout << endl;
+				cout << "No songs removed." << endl;
+				cout << endl;
+			}
+			break;
+		}
+		case 'q': {
+			cout << endl;
+			cout << "Thank you for using my program!" << endl;
+			cout << endl;
+		}
+		case 'n': {
+			char * title = nullptr;
+			char * artist = nullptr;
+			float length;
+			int likes;
+			cout << endl;
+			cout << "Name: "; 
+			title = getInput();
+			cout << "Artist: ";
+			artist = getInput();
+			cout << "Length: ";
+			length = getFloat();
+			cout << "Likes: ";
+			likes = getInt();
+			cout << endl;
+			sl->addSong(title, artist, length, likes);
+		}
+		default: {
+			cout << endl;
+			cout << "Choice not recognized." << endl;
+			cout << endl;
+		}
+	}
+}
+
 // display menu and get user's choice
 char menu() {
   char * input;
-  cout << "DISPLAY   - Display Entire List" << endl;
+  cout << "DISPLAY   - Display Entire Playlist" << endl;
+	cout << "NEW       - Add A New Track To Playlist" << endl;
   cout << "ARTIST    - Display Tracks For A Single Artist" << endl;
   cout << "EDIT      - Edit The Likes For A Given Track" << endl;
-  cout << "REMOVE    - Remove All Songs Under A Given Likes Threshold" << endl;
+  cout << "REMOVE    - Remove All Tracks Under A Given Likes Threshold" << endl;
   cout << "QUIT      - Quit This Program" << endl;
   cout << endl;
   cout << "Please enter your choice: ";
@@ -125,13 +150,32 @@ char menu() {
     input = nullptr;
     return 'q';
   }
+  if (strcmp("new", input) == 0) {
+    delete [] input;
+    input = nullptr;
+    return 'n';
+  }
   else {
     delete [] input;
     input = nullptr;
     return 'z';
   }
 }
-
+// get clean float input
+float getFloat() {
+	float input;
+	cin >> input;
+	while (!cin || input < 0) {
+		cin.clear();
+		cin.ignore(256, '\n');
+		cout << "Not a valid input. Try again: ";
+		cin >> input;
+	}
+	// ignore any characters that break the input
+	// so that menu function works after
+	cin.ignore(256, '\n');
+	return input;
+}
 // get clean input
 int getInt() {
   int input;
